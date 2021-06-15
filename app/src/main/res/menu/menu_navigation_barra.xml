@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_pais_cerveja"
+        android:title="@string/paises_cerveja"
+        android:icon="@drawable/ic_paises"/>
+
+    <item
+        android:id="@+id/menu_estilo_cerveja"
+        android:title="@string/estilo_cerveja"
+        android:icon="@drawable/ic_estilo"/>
+
+    <item
+        android:id="@+id/menu_classificacao_cerveja"
+        android:title="@string/classificacao_cerveja"
+        android:icon="@drawable/ic_classificacao"/>
+
+</menu>
