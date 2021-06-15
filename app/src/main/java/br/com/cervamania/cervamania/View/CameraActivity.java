@@ -2,8 +2,8 @@ package br.com.cervamania.cervamania.View;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -20,7 +20,7 @@ import br.com.cervamania.cervamania.R;
 
 public class CameraActivity extends AppCompatActivity {
 
-    private android.support.v7.widget.Toolbar toolbar;
+    private androidx.appcompat.widget.Toolbar toolbar;
     private String localArquivoFoto = "";
     private boolean ok;
     private Button btnCamera, btnEnviarFoto;
@@ -33,7 +33,7 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolBarCameraActivity);
+        toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolBarCameraActivity);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

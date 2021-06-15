@@ -1,10 +1,9 @@
 package br.com.cervamania.cervamania.View;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import br.com.cervamania.cervamania.Model.CoresCervejas;
@@ -12,7 +11,7 @@ import br.com.cervamania.cervamania.R;
 
 public class DescricaoEstiloCervejaActivity extends AppCompatActivity {
 
-    private android.support.v7.widget.Toolbar toolbar;
+    private androidx.appcompat.widget.Toolbar toolbar;
     private TextView txtDescricaoEstiloCerveja;
     private TextView txtEstiloCerveja;
     private String codigoEstiloCerveja;
@@ -26,7 +25,7 @@ public class DescricaoEstiloCervejaActivity extends AppCompatActivity {
         savedInstanceState = getIntent().getExtras();
         codigoEstiloCerveja = savedInstanceState.getString("codigoEstiloCerveja");
 
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolBarDescricaoEstiloCervejaActivity);
+        toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolBarDescricaoEstiloCervejaActivity);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

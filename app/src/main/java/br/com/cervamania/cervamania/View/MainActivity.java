@@ -3,13 +3,15 @@ package br.com.cervamania.cervamania.View;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return true;
     }
 
-    public void montaFragment(android.support.v4.app.Fragment fragment) {
+    public void montaFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frameContainer, fragment);
         transaction.commit();
@@ -138,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         snackView.setBackgroundColor(getResources().getColor(R.color.colorNotFound));
 
-        TextView snackTitle = snackView.findViewById(android.support.design.R.id.snackbar_text);
+        TextView snackTitle = snackView.findViewById(com.google.android.material.R.id.snackbar_text);
         snackTitle.setTextColor(getResources().getColor(R.color.colorFontLight));
         snackbar.setActionTextColor(getResources().getColor(R.color.colorFontLight));
 

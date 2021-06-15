@@ -3,17 +3,17 @@ package br.com.cervamania.cervamania.View;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Button;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import br.com.cervamania.cervamania.R;
 
-public class EstiloCervejaFragment extends android.support.v4.app.Fragment {
+public class EstiloCervejaFragment extends Fragment {
 
     private Context context;
     private Button btnAmericanLager, btnAmberLager, btnViennaLager, btnPilsener, btnPremium, btnHelles, btnMunchnerDunkel, btnDarkAmericanLager, btnSchwarzbier, btnBock;
@@ -26,7 +26,7 @@ public class EstiloCervejaFragment extends android.support.v4.app.Fragment {
     private Bundle bundle;
 
 
-    public static android.support.v4.app.Fragment newInstance() {
+    public static Fragment newInstance() {
         EstiloCervejaFragment fragment = new EstiloCervejaFragment();
         return fragment;
     }

@@ -3,15 +3,17 @@ package br.com.cervamania.cervamania.View;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.fragment.app.Fragment;
+
 import br.com.cervamania.cervamania.R;
 
-public class PaisCervejaFragment extends android.support.v4.app.Fragment {
+public class PaisCervejaFragment extends Fragment {
 
     private Context context;
     private Button btnAlemanha, btnArgentina, btnAustralia, btnAustria, btnBelgica, btnBrasil, btnDinamarca, btnEspanha, btnEstadosUnidos, btnHolanda;
@@ -20,7 +22,7 @@ public class PaisCervejaFragment extends android.support.v4.app.Fragment {
     private Bundle bundle = new Bundle();
 
 
-    public static android.support.v4.app.Fragment newInstance() {
+    public static Fragment newInstance() {
         PaisCervejaFragment fragment = new PaisCervejaFragment();
         return fragment;
     }

@@ -8,11 +8,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +27,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.ProtocolFamily;
 
 import br.com.cervamania.cervamania.Controller.TarefaRetornaObjetoCerveja;
 import br.com.cervamania.cervamania.Model.BandeirasCervejas;
@@ -48,7 +46,7 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
     private String codigoCor;
     private String codigoEstiloCerveja;
     private NomesEstilosCervejas nomes = new NomesEstilosCervejas();
-    private android.support.v7.widget.Toolbar toolbar;
+    private androidx.appcompat.widget.Toolbar toolbar;
     private CoresCervejas cores = new CoresCervejas();
     private BandeirasCervejas bandeiras = new BandeirasCervejas();
     private ImagensCervejas imagens = new ImagensCervejas();
@@ -65,7 +63,7 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
 
         savedInstanceState = getIntent().getExtras();
 
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolBarDetalhesCervejaActivity);
+        toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolBarDetalhesCervejaActivity);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

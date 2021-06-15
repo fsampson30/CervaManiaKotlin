@@ -1,7 +1,6 @@
 package br.com.cervamania.cervamania.Controller;
 
-import android.graphics.Bitmap;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;

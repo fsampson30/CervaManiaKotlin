@@ -1,12 +1,11 @@
 package br.com.cervamania.cervamania.View;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import br.com.cervamania.cervamania.Controller.AdapterListaComentariosCervejaSelecionada;
 import br.com.cervamania.cervamania.Controller.TarefaRetornaListaComentariosCervejaSelecionada;
 import br.com.cervamania.cervamania.Controller.TarefaRetornaNotaClassificacaoIndividual;
-import br.com.cervamania.cervamania.Controller.TarefaRetornaObjetoCerveja;
 import br.com.cervamania.cervamania.Model.CoresCervejas;
 import br.com.cervamania.cervamania.Model.ImagensCervejas;
 import br.com.cervamania.cervamania.R;
@@ -49,7 +47,7 @@ public class ListaClassificacaoCervejaSelecionadaActivity extends AppCompatActiv
 
         savedInstanceState = getIntent().getExtras();
 
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolBarClassificacaoCervejaSelecionadaActivity);
+        toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolBarClassificacaoCervejaSelecionadaActivity);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
