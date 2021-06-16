@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import br.com.cervamania.cervamania.R;
+import br.com.cervamania.cervamania.sqlite.DataBaseHelper;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -40,6 +41,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             criaSnackBar(layout);
             return;
         }
+
+        DataBaseHelper db = new DataBaseHelper(this);
+        db.populateTipoCerveja();
+        db.populatePaisCerveja();
+        db.populateCerveja();
 
         montaFragment(EstiloCervejaFragment.newInstance());
 

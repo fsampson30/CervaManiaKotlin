@@ -13,6 +13,22 @@ public class Cerveja {
 	private String cor;
 	private String codigo_pais_cerveja;
 
+    public Cerveja(String codigo_cerveja, String nome_cerveja, String descricao_cerveja, String cervejaria, String codigo_tipo_cerveja, String teor, String ingredientes, String temperatura, String cor, String codigo_pais_cerveja) {
+        this.codigo_cerveja = codigo_cerveja;
+        this.nome_cerveja = nome_cerveja;
+        this.descricao_cerveja = descricao_cerveja;
+        this.cervejaria = cervejaria;
+        this.codigo_tipo_cerveja = codigo_tipo_cerveja;
+        this.teor = teor;
+        this.ingredientes = ingredientes;
+        this.temperatura = temperatura;
+        this.cor = cor;
+        this.codigo_pais_cerveja = codigo_pais_cerveja;
+    }
+
+    public Cerveja() {
+    }
+
     public String getCodigo_cerveja() {
         return codigo_cerveja;
     }
