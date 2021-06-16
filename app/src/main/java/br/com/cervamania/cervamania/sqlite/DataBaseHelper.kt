@@ -65,59 +65,71 @@ class DataBaseHelper(context: Context) :
     }
 
     fun populateTipoCerveja() {
-        val db = this.writableDatabase
-        val tipo = TipoCerveja()
-        val tipos = tipo.populateTipos()
-        var newRows : Long = 0
-        for (i in 0 until tipos.size) {
-            val values = ContentValues().apply {
-                put(TablesStructure.TableTipoCerveja.COLUMN_CODIGO_TIPO_CERVEJA, tipos[i].codigo_tipo_cerveja)
-                put(TablesStructure.TableTipoCerveja.COLUMN_NOME_TIPO_CERVEJA, tipos[i].nome_tipo_cerveja)
-                put(TablesStructure.TableTipoCerveja.COLUMN_DESCRICAO_TIPO_CERVEJA, tipos[i].descricao_tipo_cerveja)
+        if (!selectCountCervejas()){
+            val db = this.writableDatabase
+            val tipo = TipoCerveja()
+            val tipos = tipo.populateTipos()
+            var newRows : Long = 0
+            for (i in 0 until tipos.size) {
+                val values = ContentValues().apply {
+                    put(TablesStructure.TableTipoCerveja.COLUMN_CODIGO_TIPO_CERVEJA, tipos[i].codigo_tipo_cerveja)
+                    put(TablesStructure.TableTipoCerveja.COLUMN_NOME_TIPO_CERVEJA, tipos[i].nome_tipo_cerveja)
+                    put(TablesStructure.TableTipoCerveja.COLUMN_DESCRICAO_TIPO_CERVEJA, tipos[i].descricao_tipo_cerveja)
+                }
+                newRows = db.insert(TablesStructure.TableTipoCerveja.TABLE_NAME, null, values)
             }
-            newRows = db.insert(TablesStructure.TableTipoCerveja.TABLE_NAME, null, values)
+            Log.i(TAG, "Tipos Inseridos: ${newRows.toString()}")
+            db.close()
+        } else {
+            Log.i(TAG, "Tabela já preenchida")
         }
-        Log.i(TAG, "Tipos Inseridos: ${newRows.toString()}")
-        db.close()
     }
 
     fun populatePaisCerveja() {
-        val db = this.writableDatabase
-        val pais = PaisCerveja()
-        val paises = pais.populaPaises()
-        var newRows : Long = 0
-        for (i in 0 until paises.size) {
-            val values = ContentValues().apply {
-                put(TablesStructure.TablePaisCerveja.COLUMN_CODIGO_PAIS_CERVEJA, paises[i].codigo_pais_cerveja)
-                put(TablesStructure.TablePaisCerveja.COLUMN_NOME_PAIS_CERVEJA, paises[i].nome_pais_cerveja)
+        if (!selectCountCervejas()) {
+            val db = this.writableDatabase
+            val pais = PaisCerveja()
+            val paises = pais.populaPaises()
+            var newRows: Long = 0
+            for (i in 0 until paises.size) {
+                val values = ContentValues().apply {
+                    put(TablesStructure.TablePaisCerveja.COLUMN_CODIGO_PAIS_CERVEJA,paises[i].codigo_pais_cerveja)
+                    put(TablesStructure.TablePaisCerveja.COLUMN_NOME_PAIS_CERVEJA,paises[i].nome_pais_cerveja)
+                }
+                newRows = db.insert(TablesStructure.TablePaisCerveja.TABLE_NAME, null, values)
             }
-            newRows = db.insert(TablesStructure.TablePaisCerveja.TABLE_NAME, null, values)
+            Log.i(TAG, "Paises Inseridos: ${newRows.toString()}")
+            db.close()
+        } else {
+            Log.i(TAG, "Tabela já preenchida")
         }
-        Log.i(TAG, "Paises Inseridos: ${newRows.toString()}")
-        db.close()
     }
 
     fun populateCerveja(){
-        val db = this.writableDatabase
-        val cervejas = PopulaCerveja().retornaCervejas()
-        var newRows : Long = 0
-        for (i in 0 until cervejas.size){
-            val values = ContentValues().apply {
-                put(TablesStructure.TableCerveja.COLUMN_CODIGO_CERVEJA, cervejas[i].codigo_cerveja)
-                put(TablesStructure.TableCerveja.COLUMN_NOME_CERVEJA, cervejas[i].nome_cerveja)
-                put(TablesStructure.TableCerveja.COLUMN_DESCRICAO_CERVEJA, cervejas[i].descricao_cerveja)
-                put(TablesStructure.TableCerveja.COLUMN_CERVEJARIA, cervejas[i].cervejaria)
-                put(TablesStructure.TableCerveja.COLUMN_CODIGO_TIPO_CERVEJA, cervejas[i].codigo_tipo_cerveja)
-                put(TablesStructure.TableCerveja.COLUMN_TEOR, cervejas[i].teor)
-                put(TablesStructure.TableCerveja.COLUMN_INGREDIENTES, cervejas[i].ingredientes)
-                put(TablesStructure.TableCerveja.COLUMN_TEMPERATURA, cervejas[i].temperatura)
-                put(TablesStructure.TableCerveja.COLUMN_COR, cervejas[i].cor)
-                put(TablesStructure.TableCerveja.COLUMN_CODIGO_PAIS_CERVEJA, cervejas[i].codigo_pais_cerveja)
+        if (!selectCountCervejas()) {
+            val db = this.writableDatabase
+            val cervejas = PopulaCerveja().retornaCervejas()
+            var newRows: Long = 0
+            for (i in 0 until cervejas.size) {
+                val values = ContentValues().apply {
+                    put(TablesStructure.TableCerveja.COLUMN_CODIGO_CERVEJA,cervejas[i].codigo_cerveja)
+                    put(TablesStructure.TableCerveja.COLUMN_NOME_CERVEJA, cervejas[i].nome_cerveja)
+                    put(TablesStructure.TableCerveja.COLUMN_DESCRICAO_CERVEJA,cervejas[i].descricao_cerveja)
+                    put(TablesStructure.TableCerveja.COLUMN_CERVEJARIA, cervejas[i].cervejaria)
+                    put(TablesStructure.TableCerveja.COLUMN_CODIGO_TIPO_CERVEJA,cervejas[i].codigo_tipo_cerveja)
+                    put(TablesStructure.TableCerveja.COLUMN_TEOR, cervejas[i].teor)
+                    put(TablesStructure.TableCerveja.COLUMN_INGREDIENTES, cervejas[i].ingredientes)
+                    put(TablesStructure.TableCerveja.COLUMN_TEMPERATURA, cervejas[i].temperatura)
+                    put(TablesStructure.TableCerveja.COLUMN_COR, cervejas[i].cor)
+                    put(TablesStructure.TableCerveja.COLUMN_CODIGO_PAIS_CERVEJA,cervejas[i].codigo_pais_cerveja)
+                }
+                newRows = db.insert(TablesStructure.TableCerveja.TABLE_NAME, null, values)
             }
-            newRows = db.insert(TablesStructure.TableCerveja.TABLE_NAME, null, values)
+            Log.i(TAG, "Cervejas inseridas: ${newRows.toString()} ")
+            db.close()
+        } else {
+            Log.i(TAG, "Tabela já preenchida")
         }
-        Log.i(TAG, "Cervejas inseridas: ${newRows.toString()} ")
-        db.close()
     }
 
     fun selectTestsTipo() {
@@ -151,5 +163,19 @@ class DataBaseHelper(context: Context) :
                 pais.add(paisAtual)
             }
         }
+    }
+
+    fun selectCountCervejas() : Boolean{
+        val db = this.readableDatabase
+        val sql = "SELECT COUNT(*) FROM CERVEJA WHERE CODIGO_CERVEJA = '0001'"
+        var number = 0
+        val cursor = db.rawQuery(sql,null,null)
+        with(cursor){
+            while (moveToNext()) {
+                number = cursor.getInt(0)
+                Log.i(TAG, "Retorno banco de dados ${number.toString()}")
+            }
+        }
+        return (number > 0)
     }
 }

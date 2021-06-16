@@ -43,9 +43,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
 
         DataBaseHelper db = new DataBaseHelper(this);
-        db.populateTipoCerveja();
-        db.populatePaisCerveja();
-        db.populateCerveja();
+        if (!db.selectCountCervejas()){
+            db.populateTipoCerveja();
+            db.populatePaisCerveja();
+            db.populateCerveja();
+        }
 
         montaFragment(EstiloCervejaFragment.newInstance());
 
