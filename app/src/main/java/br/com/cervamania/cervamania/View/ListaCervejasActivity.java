@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import br.com.cervamania.cervamania.Controller.TarefaRetornaListaCervejasPesquis
 import br.com.cervamania.cervamania.Model.NomesEstilosCervejas;
 import br.com.cervamania.cervamania.Model.NomesPaisesCervejas;
 import br.com.cervamania.cervamania.R;
+import br.com.cervamania.cervamania.sqlite.DataBaseHelper;
 
 public class ListaCervejasActivity extends AppCompatActivity {
 
@@ -37,6 +39,7 @@ public class ListaCervejasActivity extends AppCompatActivity {
     private ArrayList<Double> notasClassificacoes = new ArrayList<>();
     public ProgressBar barraCircular;
     public TextView txtBaixandoInformacoes;
+    private static final String TAG = "ListaCervejasActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +82,13 @@ public class ListaCervejasActivity extends AppCompatActivity {
             }
             case "pesquisa": {
                 txtTituloEstiloCerveja.setText("Pesquisa por: " + textoPesquisadoUsuario);
-                new TarefaRetornaListaCervejasPesquisaUsuario(this).execute(textoPesquisadoUsuario);
+
+                //Código responsável pela pesquisa no SQLite - Nova implementação.
+
+                recebeListaPesquisaUsuario(textoPesquisadoUsuario);
+
+                //Código respónsável por acesso externo ao banco de dados - Desativado por Flavio Sampson - 16/06/2021 - 16:23
+                //new TarefaRetornaListaCervejasPesquisaUsuario(this).execute(textoPesquisadoUsuario);
                 break;
 
             }
@@ -110,6 +119,13 @@ public class ListaCervejasActivity extends AppCompatActivity {
 
     public void retornaNotasClassificacao(ArrayList<Double> notasClassificacoes) {
         this.notasClassificacoes = notasClassificacoes;
+    }
+
+    public void recebeListaPesquisaUsuario(String nome){
+        DataBaseHelper db = new DataBaseHelper(this);
+        ArrayList<String> lista = db.selectNomeCerveja(nome);
+        adapter = new AdapterListaCervejas(db.selectNomeCerveja(nome), codigoTipoCerveja, origemFragment, notasClassificacoes);
+        recyclerViewListaCervejas.setAdapter(adapter);
     }
 }
 

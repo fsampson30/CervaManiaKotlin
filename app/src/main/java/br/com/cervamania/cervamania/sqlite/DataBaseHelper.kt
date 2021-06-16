@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 import android.util.Log
-import br.com.cervamania.cervamania.Model.Cerveja
 import br.com.cervamania.cervamania.Model.PaisCerveja
 import br.com.cervamania.cervamania.Model.PopulaCerveja
 import br.com.cervamania.cervamania.Model.TipoCerveja
@@ -147,6 +146,8 @@ class DataBaseHelper(context: Context) :
                 tipos.add(tipoAtual)
             }
         }
+        cursor.close()
+        db.close()
     }
 
     fun selectTestsPais() {
@@ -163,6 +164,8 @@ class DataBaseHelper(context: Context) :
                 pais.add(paisAtual)
             }
         }
+        cursor.close()
+        db.close()
     }
 
     fun selectCountCervejas() : Boolean{
@@ -176,6 +179,27 @@ class DataBaseHelper(context: Context) :
                 Log.i(TAG, "Retorno banco de dados ${number.toString()}")
             }
         }
+        cursor.close()
+        db.close()
         return (number > 0)
+    }
+
+    fun selectNomeCerveja(nome: String) : ArrayList<String>{
+        val db = this.readableDatabase
+        val names = arrayListOf<String>()
+        val columns = arrayOf(TablesStructure.TableCerveja.COLUMN_NOME_CERVEJA)
+        val condition = "${TablesStructure.TableCerveja.COLUMN_NOME_CERVEJA} LIKE ?"
+        Log.i(TAG, "condition:  $condition")
+        val parameters = arrayOf("%$nome%")
+        Log.i(TAG, "Parameters: ${parameters.get(0)}")
+        val cursor = db.query(TablesStructure.TableCerveja.TABLE_NAME,columns,condition,parameters,null,null, null)
+        //Log.i(TAG, "Cursor ${cursor.getString(0)}")
+        with(cursor){
+            while (moveToNext()){
+                names.add(cursor.getString(0))
+                Log.i(TAG, "Cerveja: ${cursor.getString(0)}")
+            }
+        }
+        return names
     }
 }

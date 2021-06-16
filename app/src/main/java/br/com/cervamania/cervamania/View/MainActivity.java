@@ -12,6 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,11 +23,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import br.com.cervamania.cervamania.R;
 import br.com.cervamania.cervamania.sqlite.DataBaseHelper;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "MainActivity";
     private Toolbar toolbar;
     private BottomNavigationView bottomNavigationView;
     private EditText txtPesquisaCerveja;
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             return;
         }
 
-        DataBaseHelper db = new DataBaseHelper(this);
+        final DataBaseHelper db = new DataBaseHelper(this);
         if (!db.selectCountCervejas()){
             db.populateTipoCerveja();
             db.populatePaisCerveja();
