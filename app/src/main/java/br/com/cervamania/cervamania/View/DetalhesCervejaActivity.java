@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,9 +37,11 @@ import br.com.cervamania.cervamania.Model.ImagensCervejas;
 import br.com.cervamania.cervamania.Model.NomesEstilosCervejas;
 import br.com.cervamania.cervamania.Model.NomesPaisesCervejas;
 import br.com.cervamania.cervamania.R;
+import br.com.cervamania.cervamania.sqlite.DataBaseHelper;
 
 public class DetalhesCervejaActivity extends AppCompatActivity {
 
+    private static final String TAG = "DetalhesCervejaActivity" ;
     private TextView txtNomeCerveja, txtEstiloCerveja, txtDescricaoCerveja, txtCervejariaCerveja, txtTeorCerveja, txtIngredientesCerveja, txtTemperaturaCerveja;
     private ImageView imgGarrafaCerveja, imgPaisCerveja, imgColoracaoCerveja;
     private String nomeCerveja;
@@ -88,10 +91,16 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
         imgPaisCerveja = (ImageView) findViewById(R.id.imageDetalhesPaisCerveja);
         imgColoracaoCerveja = (ImageView) findViewById(R.id.imageDetalhesColoracaoCerveja);
 
-        new TarefaRetornaObjetoCerveja(this).execute(nomeCerveja);
+        //Código responsável pela pesquisa no SQLite - Nova implementação.
+        exibeProgresso();
+        retornaDadosCerveja(nomeCerveja);
+        escondeProgresso();
+
+        //Código respónsável por acesso externo ao banco de dados - Desativado por Flavio Sampson - 17/06/2021 - 12:17
+        //new TarefaRetornaObjetoCerveja(this).execute(nomeCerveja);
 
     }
-
+    //Código respónsável por acesso externo ao banco de dados - Desativado por Flavio Sampson - 17/06/2021 - 12:17
     public void retornoTarefaExterna(final Cerveja cerveja) {
         codigoCerveja = cerveja.getCodigo_cerveja();
         codigoCor = cerveja.getCor();
@@ -215,6 +224,61 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
         } else {
             return true;
         }
+    }
+
+    private void retornaDadosCerveja(String nomeCerveja) {
+        DataBaseHelper db = new DataBaseHelper(this);
+        final Cerveja cerveja = db.selectDadosCervejaPorNome(nomeCerveja);
+        codigoCerveja = cerveja.getCodigo_cerveja();
+        codigoCor = cerveja.getCor();
+        txtNomeCerveja.setText(cerveja.getNome_cerveja());
+        txtEstiloCerveja.setText(nomes.retornaNomesEstilosCervejas(cerveja.getCodigo_tipo_cerveja()));
+        txtDescricaoCerveja.setText(cerveja.getDescricao_cerveja());
+        txtCervejariaCerveja.setText(cerveja.getCervejaria());
+        txtTeorCerveja.setText(cerveja.getTeor());
+        txtIngredientesCerveja.setText(cerveja.getIngredientes());
+        txtTemperaturaCerveja.setText(cerveja.getTemperatura());
+        imgColoracaoCerveja.setImageResource(cores.retornaImagemCores(cerveja.getCor()));
+        Log.i(TAG,cerveja.getCor());
+        imgPaisCerveja.setImageResource(bandeiras.retornaImagemBandeiraCerveja(cerveja.getCodigo_pais_cerveja()));
+        imgGarrafaCerveja.setImageResource(imagens.retornaImagemCervejaReduzida(cerveja.getNome_cerveja()));
+        layout.setBackgroundColor(getResources().getColor(cores.retornaCoresHexaDecimal(cerveja.getCor())));
+
+        imgPaisCerveja.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DetalhesCervejaActivity.this, nomesPaisesCervejas.retornaNomesEstilosCervejas(cerveja.getCodigo_pais_cerveja()), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        imgColoracaoCerveja.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DetalhesCervejaActivity.this, cores.retornaNomesCores(cerveja.getCor()), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        imgGarrafaCerveja.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DetalhesCervejaActivity.this, VisualizaFotoFamiliaCervejaActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("familia", "garrafa");
+                bundle.putString("nomeCerveja", cerveja.getNome_cerveja());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void exibeProgresso(){
+        barraCircular.setVisibility(View.VISIBLE);
+        txtBaixandoInformacoes.setVisibility(View.VISIBLE);
+    }
+
+    public void escondeProgresso(){
+        barraCircular.setVisibility(View.GONE);
+        txtBaixandoInformacoes.setVisibility(View.GONE);
     }
 
 

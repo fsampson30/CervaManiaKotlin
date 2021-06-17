@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 import android.util.Log
+import br.com.cervamania.cervamania.Model.Cerveja
 import br.com.cervamania.cervamania.Model.PaisCerveja
 import br.com.cervamania.cervamania.Model.PopulaCerveja
 import br.com.cervamania.cervamania.Model.TipoCerveja
@@ -184,22 +185,80 @@ class DataBaseHelper(context: Context) :
         return (number > 0)
     }
 
-    fun selectNomeCerveja(nome: String) : ArrayList<String>{
+    fun selectNomeCervejaPesquisaUsuario(nome: String) : ArrayList<String>{
         val db = this.readableDatabase
         val names = arrayListOf<String>()
         val columns = arrayOf(TablesStructure.TableCerveja.COLUMN_NOME_CERVEJA)
         val condition = "${TablesStructure.TableCerveja.COLUMN_NOME_CERVEJA} LIKE ?"
-        Log.i(TAG, "condition:  $condition")
         val parameters = arrayOf("%$nome%")
-        Log.i(TAG, "Parameters: ${parameters.get(0)}")
         val cursor = db.query(TablesStructure.TableCerveja.TABLE_NAME,columns,condition,parameters,null,null, null)
-        //Log.i(TAG, "Cursor ${cursor.getString(0)}")
         with(cursor){
             while (moveToNext()){
                 names.add(cursor.getString(0))
                 Log.i(TAG, "Cerveja: ${cursor.getString(0)}")
             }
         }
+        cursor.close()
+        db.close()
         return names
+    }
+
+    fun selectNomeCervejaPorTipo(codigoTipo: String) : ArrayList<String>{
+        val db = this.readableDatabase
+        val names = arrayListOf<String>()
+        val columns = arrayOf(TablesStructure.TableCerveja.COLUMN_NOME_CERVEJA)
+        val condition = "${TablesStructure.TableCerveja.COLUMN_CODIGO_TIPO_CERVEJA} = ?"
+        val parameters = arrayOf(codigoTipo)
+        val cursor = db.query(TablesStructure.TableCerveja.TABLE_NAME,columns,condition,parameters,null,null,null)
+        with(cursor){
+            while (moveToNext()){
+                names.add(cursor.getString(0))
+            }
+        }
+        cursor.close()
+        db.close()
+        return names
+    }
+
+    fun selectNomeCervejaPorPais(codigoPais : String) : ArrayList<String>{
+        val db = this.readableDatabase
+        val names = arrayListOf<String>()
+        val columns = arrayOf(TablesStructure.TableCerveja.COLUMN_NOME_CERVEJA)
+        val condition = "${TablesStructure.TableCerveja.COLUMN_CODIGO_PAIS_CERVEJA} = ?"
+        val parameters = arrayOf(codigoPais)
+        val cursor = db.query(TablesStructure.TableCerveja.TABLE_NAME, columns, condition, parameters, null, null, TablesStructure.TableCerveja.COLUMN_NOME_CERVEJA)
+        with(cursor){
+            while (moveToNext()){
+                names.add(cursor.getString(0))
+            }
+        }
+        cursor.close()
+        db.close()
+        return names
+    }
+
+    fun selectDadosCervejaPorNome(nomeCerveja : String) : Cerveja{
+        val db = this.readableDatabase
+        val cerveja = Cerveja()
+        val condition = "${TablesStructure.TableCerveja.COLUMN_NOME_CERVEJA} = ?"
+        val parameters = arrayOf(nomeCerveja)
+        val cursor = db.query(TablesStructure.TableCerveja.TABLE_NAME,null,condition,parameters, null,null,null)
+        with(cursor){
+            while (moveToNext()){
+                cerveja.codigo_cerveja = cursor.getString(1)
+                cerveja.nome_cerveja = cursor.getString(2)
+                cerveja.descricao_cerveja = cursor.getString(3)
+                cerveja.cervejaria = cursor.getString(4)
+                cerveja.codigo_tipo_cerveja = cursor.getString(5)
+                cerveja.teor = cursor.getString(6)
+                cerveja.ingredientes = cursor.getString(7)
+                cerveja.temperatura = cursor.getString(8)
+                cerveja.cor = cursor.getString(9)
+                cerveja.codigo_pais_cerveja = cursor.getString(10)
+            }
+        }
+        cursor.close()
+        db.close()
+        return cerveja
     }
 }

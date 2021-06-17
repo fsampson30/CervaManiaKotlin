@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +19,6 @@ import br.com.cervamania.cervamania.Controller.TarefaRetornaListaCervejasClassif
 import br.com.cervamania.cervamania.Controller.TarefaRetornaListaCervejasClassificacaoNotas;
 import br.com.cervamania.cervamania.Controller.TarefaRetornaListaCervejasEstilos;
 import br.com.cervamania.cervamania.Controller.TarefaRetornaListaCervejasPaises;
-import br.com.cervamania.cervamania.Controller.TarefaRetornaListaCervejasPesquisaUsuario;
 import br.com.cervamania.cervamania.Model.NomesEstilosCervejas;
 import br.com.cervamania.cervamania.Model.NomesPaisesCervejas;
 import br.com.cervamania.cervamania.R;
@@ -40,6 +39,7 @@ public class ListaCervejasActivity extends AppCompatActivity {
     public ProgressBar barraCircular;
     public TextView txtBaixandoInformacoes;
     private static final String TAG = "ListaCervejasActivity";
+    private DataBaseHelper db = new DataBaseHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +64,25 @@ public class ListaCervejasActivity extends AppCompatActivity {
         switch (origemFragment) {
             case "paises": {
                 txtTituloEstiloCerveja.setText(nomesPaises.retornaNomesEstilosCervejas(codigoTipoCerveja));
-                new TarefaRetornaListaCervejasPaises(this).execute(codigoTipoCerveja);
+                //Código responsável pela pesquisa no SQLite - Nova implementação.
+                exibeProgresso();
+                recebeListaPaisesCerveja(codigoTipoCerveja);
+                escondeProgresso();
+
+
+                //Código respónsável por acesso externo ao banco de dados - Desativado por Flavio Sampson - 17/06/2021 - 11:19
+                //new TarefaRetornaListaCervejasPaises(this).execute(codigoTipoCerveja);
                 break;
             }
             case "estilos": {
                 txtTituloEstiloCerveja.setText(nomesEstilos.retornaNomesEstilosCervejas(codigoTipoCerveja));
-                new TarefaRetornaListaCervejasEstilos(this).execute(codigoTipoCerveja);
+                //Código responsável pela pesquisa no SQLite - Nova implementação.
+                exibeProgresso();
+                recebeListaEstiloCerveja(codigoTipoCerveja);
+                escondeProgresso();
+
+                //Código respónsável por acesso externo ao banco de dados - Desativado por Flavio Sampson - 17/06/2021 - 10:47
+                //new TarefaRetornaListaCervejasEstilos(this).execute(codigoTipoCerveja);
                 break;
             }
             case "classificacoes": {
@@ -82,10 +95,10 @@ public class ListaCervejasActivity extends AppCompatActivity {
             }
             case "pesquisa": {
                 txtTituloEstiloCerveja.setText("Pesquisa por: " + textoPesquisadoUsuario);
-
                 //Código responsável pela pesquisa no SQLite - Nova implementação.
-
+                exibeProgresso();
                 recebeListaPesquisaUsuario(textoPesquisadoUsuario);
+                escondeProgresso();
 
                 //Código respónsável por acesso externo ao banco de dados - Desativado por Flavio Sampson - 16/06/2021 - 16:23
                 //new TarefaRetornaListaCervejasPesquisaUsuario(this).execute(textoPesquisadoUsuario);
@@ -94,6 +107,7 @@ public class ListaCervejasActivity extends AppCompatActivity {
             }
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,14 +131,35 @@ public class ListaCervejasActivity extends AppCompatActivity {
         }
     }
 
+    public void exibeProgresso(){
+        barraCircular.setVisibility(View.VISIBLE);
+        txtBaixandoInformacoes.setVisibility(View.VISIBLE);
+    }
+
+    public void escondeProgresso(){
+        barraCircular.setVisibility(View.GONE);
+        txtBaixandoInformacoes.setVisibility(View.GONE);
+    }
+
     public void retornaNotasClassificacao(ArrayList<Double> notasClassificacoes) {
         this.notasClassificacoes = notasClassificacoes;
     }
 
     public void recebeListaPesquisaUsuario(String nome){
-        DataBaseHelper db = new DataBaseHelper(this);
-        ArrayList<String> lista = db.selectNomeCerveja(nome);
-        adapter = new AdapterListaCervejas(db.selectNomeCerveja(nome), codigoTipoCerveja, origemFragment, notasClassificacoes);
+        ArrayList<String> lista = db.selectNomeCervejaPesquisaUsuario(nome);
+        adapter = new AdapterListaCervejas(lista, codigoTipoCerveja, origemFragment, notasClassificacoes);
+        recyclerViewListaCervejas.setAdapter(adapter);
+    }
+
+    private void recebeListaEstiloCerveja(String codigo) {
+        ArrayList<String> lista = db.selectNomeCervejaPorTipo(codigo);
+        adapter = new AdapterListaCervejas(lista, codigoTipoCerveja, origemFragment, notasClassificacoes);
+        recyclerViewListaCervejas.setAdapter(adapter);
+    }
+
+    private void recebeListaPaisesCerveja(String codigoPais) {
+        ArrayList<String> lista = db.selectNomeCervejaPorPais(codigoPais);
+        adapter = new AdapterListaCervejas(lista, codigoTipoCerveja, origemFragment, notasClassificacoes);
         recyclerViewListaCervejas.setAdapter(adapter);
     }
 }
