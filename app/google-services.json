@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "580652368860",
+    "project_id": "cervamania",
+    "storage_bucket": "cervamania.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580652368860:android:ba3062fa0280ece0544519",
+        "android_client_info": {
+          "package_name": "br.com.cervamania.cervamania"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "580652368860-bs0ra5nf7v7te8ce8ssl6h6goo657vhh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0Du0ZAXT_v8X8yAPR3U4Y8Eem1_JQlV8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "580652368860-bs0ra5nf7v7te8ce8ssl6h6goo657vhh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

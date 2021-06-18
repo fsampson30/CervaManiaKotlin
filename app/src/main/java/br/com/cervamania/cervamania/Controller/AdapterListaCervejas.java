@@ -4,9 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.firebase.ktx.Firebase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -19,13 +26,13 @@ import br.com.cervamania.cervamania.View.DetalhesCervejaActivity;
 
 public class AdapterListaCervejas extends RecyclerView.Adapter<ViewHolderListaCervejas> {
 
+    private static final String TAG = "AdapterListaCervejas";
     private ArrayList<String> listaNomesCervejas = new ArrayList<>();
     private ArrayList<Double> notasClassificacoes = new ArrayList<>();
     private String codigoTipoCerveja;
     private String origemFragment;
     private ImagensCervejas imagens = new ImagensCervejas();
     private CoresCervejas cores = new CoresCervejas();
-    private NomesEstilosCervejas estilos = new NomesEstilosCervejas();
 
     public AdapterListaCervejas(ArrayList<String> nomeCerveja, String codigoTipoCerveja, String origemFragment, ArrayList<Double> notasClassificacoes) {
         this.listaNomesCervejas = nomeCerveja;
@@ -44,8 +51,18 @@ public class AdapterListaCervejas extends RecyclerView.Adapter<ViewHolderListaCe
     @Override
     public void onBindViewHolder(@NonNull final ViewHolderListaCervejas holder, int position) {
         final String nomeAtual = listaNomesCervejas.get(position);
+        DownloadImages download = new DownloadImages(holder.itemView.getContext(), nomeAtual);
         holder.txtListaCervejaNome.setText(nomeAtual);
-        holder.imgListaCervejaGarrafa.setImageResource(imagens.retornaImagemCervejaReduzida(nomeAtual));
+        String path = download.retornaImageUrl();
+        Log.i(TAG, "URL Foto " + path);
+
+        if (path.isEmpty()){
+            path = "https://firebasestorage.googleapis.com/v0/b/cervamania.appspot.com/o/amber1.png?alt=media&token=801e103d-459b-4956-906d-14cd0b758f5c";
+        }
+
+        //holder.imgListaCervejaGarrafa.setImageResource(imagens.retornaImagemCervejaReduzida(nomeAtual));
+        Picasso.get().load(path).placeholder(R.drawable.ic_cerveja).into(holder.imgListaCervejaGarrafa);
+
 
         switch (origemFragment) {
             case "estilos": {
