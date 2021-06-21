@@ -53,8 +53,8 @@ public class AdapterListaCervejas extends RecyclerView.Adapter<ViewHolderListaCe
     public void onBindViewHolder(@NonNull final ViewHolderListaCervejas holder, int position) {
         final String nomeAtual = listaNomesCervejas.get(position);
         String path = imagens.retornaArquivoCerveja(nomeAtual);
-        DownloadImages downloadImages = new DownloadImages(holder.itemView.getContext(), nomeAtual);
-        String teste = downloadImages.retornaImageUrl();
+        //DownloadImages downloadImages = new DownloadImages(holder.itemView.getContext(), nomeAtual);
+        //String teste = downloadImages.retornaImageUrl();
         holder.txtListaCervejaNome.setText(nomeAtual);
         Picasso.get().load(path).fetch();
 

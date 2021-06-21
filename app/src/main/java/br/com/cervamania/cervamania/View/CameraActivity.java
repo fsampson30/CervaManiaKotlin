@@ -2,6 +2,8 @@ package br.com.cervamania.cervamania.View;
 
 import android.content.Intent;
 import android.net.Uri;
+
+import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,13 +15,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import br.com.cervamania.cervamania.Controller.TarefaEnviaFotoExterno;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import br.com.cervamania.cervamania.R;
 
 public class CameraActivity extends AppCompatActivity {
 
+    private static final String TAG = "CameraActivity";
     private androidx.appcompat.widget.Toolbar toolbar;
     private String localArquivoFoto = "";
     private boolean ok;
@@ -68,7 +79,8 @@ public class CameraActivity extends AppCompatActivity {
         btnEnviarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new TarefaEnviaFotoExterno(CameraActivity.this).execute(localArquivoFoto);
+                //new TarefaEnviaFotoExterno(CameraActivity.this).execute(localArquivoFoto);
+                uploadPhotoToFirebase();
             }
         });
     }
@@ -88,5 +100,45 @@ public class CameraActivity extends AppCompatActivity {
         } else {
             Toast.makeText(CameraActivity.this, "Erro ao enviar. Tente novamente.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void uploadPhotoToFirebase(){
+        barraCircular.setVisibility(View.VISIBLE);
+        txtBaixandoInformacoes.setVisibility(View.VISIBLE);
+        String valPath = "upload/" + System.currentTimeMillis()+".jpg";
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+        StorageReference filePath = storageReference.child(valPath);
+        FileInputStream arquivo = null;
+        try {
+            arquivo = new FileInputStream(localArquivoFoto);
+            byte[] foto = new byte[arquivo.available()];
+            arquivo.read(foto);
+            arquivo.close();
+            UploadTask uploadTask = filePath.putBytes(foto);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.i(TAG, "Failure to upload Image");
+                    barraCircular.setVisibility(View.GONE);
+                    txtBaixandoInformacoes.setVisibility(View.GONE);
+                    Toast.makeText(CameraActivity.this, "Erro ao enviar. Tente novamente.", Toast.LENGTH_LONG).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.i(TAG, "Finish Uploading ");
+                    barraCircular.setVisibility(View.GONE);
+                    txtBaixandoInformacoes.setVisibility(View.GONE);
+                    Toast.makeText(CameraActivity.this, "Foto enviada. Agradecemos o Feedback.", Toast.LENGTH_LONG).show();
+                }
+            });
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
