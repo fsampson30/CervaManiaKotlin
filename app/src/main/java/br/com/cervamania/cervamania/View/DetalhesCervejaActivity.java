@@ -23,12 +23,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import br.com.cervamania.cervamania.Controller.DownloadImages;
 import br.com.cervamania.cervamania.Controller.TarefaRetornaObjetoCerveja;
 import br.com.cervamania.cervamania.Model.BandeirasCervejas;
 import br.com.cervamania.cervamania.Model.Cerveja;
@@ -57,6 +60,7 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
     private LinearLayout layout;
     public ProgressBar barraCircular;
     public TextView txtBaixandoInformacoes;
+    private String url = "";
 
 
     @Override
@@ -73,6 +77,8 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
 
         nomeCerveja = savedInstanceState.getString("nomeCerveja");
         codigoEstiloCerveja = savedInstanceState.getString("codigoEstiloCerveja");
+        //DownloadImages download = new DownloadImages(this, nomeCerveja);
+        url = "https://firebasestorage.googleapis.com/v0/b/cervamania.appspot.com/o/lager1.png?alt=media&token=1e77893f-855c-445a-980a-4441656fdcf9";
 
         layout = (LinearLayout) findViewById(R.id.layoutHeaderDetalhesCerveja);
 
@@ -241,7 +247,8 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
         imgColoracaoCerveja.setImageResource(cores.retornaImagemCores(cerveja.getCor()));
         Log.i(TAG,cerveja.getCor());
         imgPaisCerveja.setImageResource(bandeiras.retornaImagemBandeiraCerveja(cerveja.getCodigo_pais_cerveja()));
-        imgGarrafaCerveja.setImageResource(imagens.retornaImagemCervejaReduzida(cerveja.getNome_cerveja()));
+        Picasso.get().load(url).placeholder(R.drawable.caneca).into(imgGarrafaCerveja);
+        //imgGarrafaCerveja.setImageResource(imagens.retornaImagemCervejaReduzida(cerveja.getNome_cerveja()));
         layout.setBackgroundColor(getResources().getColor(cores.retornaCoresHexaDecimal(cerveja.getCor())));
 
         imgPaisCerveja.setOnClickListener(new View.OnClickListener() {

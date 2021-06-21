@@ -2,6 +2,7 @@ package br.com.cervamania.cervamania.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,17 +52,18 @@ public class AdapterListaCervejas extends RecyclerView.Adapter<ViewHolderListaCe
     @Override
     public void onBindViewHolder(@NonNull final ViewHolderListaCervejas holder, int position) {
         final String nomeAtual = listaNomesCervejas.get(position);
-        DownloadImages download = new DownloadImages(holder.itemView.getContext(), nomeAtual);
+        String path = imagens.retornaArquivoCerveja(nomeAtual);
+        DownloadImages downloadImages = new DownloadImages(holder.itemView.getContext(), nomeAtual);
+        String teste = downloadImages.retornaImageUrl();
         holder.txtListaCervejaNome.setText(nomeAtual);
-        String path = download.retornaImageUrl();
-        Log.i(TAG, "URL Foto " + path);
+        Picasso.get().load(path).fetch();
 
-        if (path.isEmpty()){
-            path = "https://firebasestorage.googleapis.com/v0/b/cervamania.appspot.com/o/amber1.png?alt=media&token=801e103d-459b-4956-906d-14cd0b758f5c";
+        //holder.imgListaCervejaGarrafa.setImageResource(R.drawable.caneca);
+        if (!path.isEmpty()) {
+            Picasso.get().load(path).placeholder(R.drawable.caneca).into(holder.imgListaCervejaGarrafa);
+        } else {
+            holder.imgListaCervejaGarrafa.setImageResource(R.drawable.caneca);
         }
-
-        //holder.imgListaCervejaGarrafa.setImageResource(imagens.retornaImagemCervejaReduzida(nomeAtual));
-        Picasso.get().load(path).placeholder(R.drawable.ic_cerveja).into(holder.imgListaCervejaGarrafa);
 
 
         switch (origemFragment) {
