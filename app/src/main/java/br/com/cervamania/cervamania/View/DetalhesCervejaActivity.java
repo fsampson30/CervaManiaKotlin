@@ -78,7 +78,6 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
         nomeCerveja = savedInstanceState.getString("nomeCerveja");
         codigoEstiloCerveja = savedInstanceState.getString("codigoEstiloCerveja");
         //DownloadImages download = new DownloadImages(this, nomeCerveja);
-        url = "https://firebasestorage.googleapis.com/v0/b/cervamania.appspot.com/o/lager1.png?alt=media&token=1e77893f-855c-445a-980a-4441656fdcf9";
 
         layout = (LinearLayout) findViewById(R.id.layoutHeaderDetalhesCerveja);
 
@@ -247,6 +246,8 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
         imgColoracaoCerveja.setImageResource(cores.retornaImagemCores(cerveja.getCor()));
         Log.i(TAG,cerveja.getCor());
         imgPaisCerveja.setImageResource(bandeiras.retornaImagemBandeiraCerveja(cerveja.getCodigo_pais_cerveja()));
+        url = imagens.retornaArquivoCervejaReduzida(cerveja.getNome_cerveja());
+        Picasso.get().load(url).fetch();
         Picasso.get().load(url).placeholder(R.drawable.caneca).into(imgGarrafaCerveja);
         //imgGarrafaCerveja.setImageResource(imagens.retornaImagemCervejaReduzida(cerveja.getNome_cerveja()));
         layout.setBackgroundColor(getResources().getColor(cores.retornaCoresHexaDecimal(cerveja.getCor())));

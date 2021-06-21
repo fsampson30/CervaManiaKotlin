@@ -15,7 +15,7 @@ class DownloadImages(
 ) {
 
     fun retornaImageUrl(): String {
-        val arquivo = ImagensCervejas().retornaArquivoCerveja(nomeCerveja)
+        val arquivo = ImagensCervejas().retornaArquivoCervejaReduzida(nomeCerveja)
         val db = Firebase.storage
         val storageRef = db.reference
         val pathRef = storageRef.child(arquivo)

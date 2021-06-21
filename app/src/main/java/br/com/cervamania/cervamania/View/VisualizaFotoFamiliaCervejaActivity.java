@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 
 import com.ortiz.touchview.TouchImageView;
+import com.squareup.picasso.Picasso;
 
 import br.com.cervamania.cervamania.Model.ImagensCervejas;
 import br.com.cervamania.cervamania.R;
@@ -47,7 +48,10 @@ public class VisualizaFotoFamiliaCervejaActivity extends AppCompatActivity {
             }
             case "garrafa":{
                 imagensCervejas = new ImagensCervejas();
-                imgFamiliaCerveja.setImageResource(imagensCervejas.retornaImagemCerveja(nomeCerveja));
+                //imgFamiliaCerveja.setImageResource(imagensCervejas.retornaImagemCerveja(nomeCerveja));
+                String url = imagensCervejas.retornaArquivoCerveja(nomeCerveja);
+                Picasso.get().load(url).fetch();
+                Picasso.get().load(url).placeholder(R.drawable.caneca).into(imgFamiliaCerveja);
             }
         }
     }
