@@ -16,6 +16,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import br.com.cervamania.cervamania.Controller.TarefaInsereClassificacao;
 import br.com.cervamania.cervamania.Model.ClassificacaoCerveja;
 import br.com.cervamania.cervamania.Model.CoresCervejas;
@@ -71,7 +73,10 @@ public class InsereClassificacaoCervejaSelecionadaActivity extends AppCompatActi
 
         linearLayout.setBackgroundColor(getResources().getColor(coresCervejas.retornaCoresHexaDecimal(codigoCor)));
         txtNomeCerveja.setText(nomeCerveja);
-        imgGarrafa.setImageResource(imagensCervejas.retornaImagemCervejaReduzida(nomeCerveja));
+        //imgGarrafa.setImageResource(imagensCervejas.retornaImagemCervejaReduzida(nomeCerveja));
+        String path = imagensCervejas.retornaArquivoCervejaReduzida(nomeCerveja);
+        Picasso.get().load(path).fetch();
+        Picasso.get().load(path).placeholder(R.drawable.caneca).into(imgGarrafa);
 
         btnConfirma.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +88,7 @@ public class InsereClassificacaoCervejaSelecionadaActivity extends AppCompatActi
                 classificacaoCerveja.setComentarios(txtComentarios.getText().toString());
                 classificacaoCerveja.setEstrelas(barraNota.getRating());
 
-                new TarefaInsereClassificacao(InsereClassificacaoCervejaSelecionadaActivity.this).execute(classificacaoCerveja);
+                //new TarefaInsereClassificacao(InsereClassificacaoCervejaSelecionadaActivity.this).execute(classificacaoCerveja);
             }
         });
     }

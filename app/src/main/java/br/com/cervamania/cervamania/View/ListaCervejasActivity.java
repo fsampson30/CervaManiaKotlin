@@ -75,7 +75,7 @@ public class ListaCervejasActivity extends AppCompatActivity {
                 break;
             }
             case "estilos": {
-                txtTituloEstiloCerveja.setText(nomesEstilos.retornaNomesEstilosCervejas(codigoTipoCerveja));
+                //txtTituloEstiloCerveja.setText(nomesEstilos.retornaNomesEstilosCervejas(codigoTipoCerveja));
                 //Código responsável pela pesquisa no SQLite - Nova implementação.
                 exibeProgresso();
                 recebeListaEstiloCerveja(codigoTipoCerveja);
@@ -153,6 +153,7 @@ public class ListaCervejasActivity extends AppCompatActivity {
 
     private void recebeListaEstiloCerveja(String codigo) {
         ArrayList<String> lista = db.selectNomeCervejaPorTipo(codigo);
+        txtTituloEstiloCerveja.setText(nomesEstilos.retornaNomesEstilosCervejas(codigoTipoCerveja));
         adapter = new AdapterListaCervejas(lista, codigoTipoCerveja, origemFragment, notasClassificacoes);
         recyclerViewListaCervejas.setAdapter(adapter);
     }

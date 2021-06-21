@@ -15,6 +15,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import br.com.cervamania.cervamania.Controller.AdapterListaComentariosCervejaSelecionada;
@@ -70,9 +72,12 @@ public class ListaClassificacaoCervejaSelecionadaActivity extends AppCompatActiv
 
         linearLayout.setBackgroundColor(getResources().getColor(coresCervejas.retornaCoresHexaDecimal(codigoCor)));
         txtNomeCerveja.setText(nomeCerveja);
-        imgGarrafa.setImageResource(imagensCervejas.retornaImagemCervejaReduzida(nomeCerveja));
+        String path = imagensCervejas.retornaArquivoCervejaReduzida(nomeCerveja);
+        Picasso.get().load(path).fetch();
+        Picasso.get().load(path).placeholder(R.drawable.caneca).into(imgGarrafa);
+        //imgGarrafa.setImageResource(imagensCervejas.retornaImagemCervejaReduzida(nomeCerveja));
 
-        new TarefaRetornaNotaClassificacaoIndividual(this).execute(codigoCerveja);
+        //new TarefaRetornaNotaClassificacaoIndividual(this).execute(codigoCerveja);
     }
 
     @Override
