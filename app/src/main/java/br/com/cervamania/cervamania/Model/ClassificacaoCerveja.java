@@ -5,6 +5,16 @@ public class ClassificacaoCerveja {
     private String codigoCerveja, comentarios, nomeCerveja;
     private double estrelas;
 
+    public ClassificacaoCerveja(String codigoCerveja, String comentarios, String nomeCerveja, double estrelas) {
+        this.codigoCerveja = codigoCerveja;
+        this.comentarios = comentarios;
+        this.nomeCerveja = nomeCerveja;
+        this.estrelas = estrelas;
+    }
+
+    public ClassificacaoCerveja() {
+    }
+
     public String getCodigoCerveja() {
         return codigoCerveja;
     }

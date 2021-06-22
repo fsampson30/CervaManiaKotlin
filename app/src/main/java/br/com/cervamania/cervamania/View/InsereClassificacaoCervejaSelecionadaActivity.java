@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import br.com.cervamania.cervamania.Controller.TarefaInsereClassificacao;
+import br.com.cervamania.cervamania.Controller.UploadRatings;
 import br.com.cervamania.cervamania.Model.ClassificacaoCerveja;
 import br.com.cervamania.cervamania.Model.CoresCervejas;
 import br.com.cervamania.cervamania.Model.ImagensCervejas;
@@ -26,6 +27,7 @@ import br.com.cervamania.cervamania.R;
 
 public class InsereClassificacaoCervejaSelecionadaActivity extends AppCompatActivity {
 
+    private static final String TAG = "InsereClassActivity";
     private TextView txtNomeCerveja;
     private RatingBar barraClassificacao;
     private ImageView imgGarrafa;
@@ -87,6 +89,7 @@ public class InsereClassificacaoCervejaSelecionadaActivity extends AppCompatActi
                 classificacaoCerveja.setNomeCerveja(nomeCerveja);
                 classificacaoCerveja.setComentarios(txtComentarios.getText().toString());
                 classificacaoCerveja.setEstrelas(barraNota.getRating());
+                insereClassificacao(classificacaoCerveja);
 
                 //new TarefaInsereClassificacao(InsereClassificacaoCervejaSelecionadaActivity.this).execute(classificacaoCerveja);
             }
@@ -108,5 +111,20 @@ public class InsereClassificacaoCervejaSelecionadaActivity extends AppCompatActi
         } else {
             Toast.makeText(InsereClassificacaoCervejaSelecionadaActivity.this, "Erro!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void insereClassificacao(ClassificacaoCerveja classificacaoCerveja) {
+        UploadRatings upload = new UploadRatings(this);
+        upload.addRating(classificacaoCerveja);
+    }
+
+    public void exibeProgresso(){
+        barraCircular.setVisibility(View.VISIBLE);
+        txtBaixandoInformacoes.setVisibility(View.VISIBLE);
+    }
+
+    public void escondeProgresso(){
+        barraCircular.setVisibility(View.GONE);
+        txtBaixandoInformacoes.setVisibility(View.GONE);
     }
 }
