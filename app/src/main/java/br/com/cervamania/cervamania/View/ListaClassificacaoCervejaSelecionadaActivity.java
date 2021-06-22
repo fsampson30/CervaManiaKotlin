@@ -17,9 +17,11 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.sql.Array;
 import java.util.ArrayList;
 
 import br.com.cervamania.cervamania.Controller.AdapterListaComentariosCervejaSelecionada;
+import br.com.cervamania.cervamania.Controller.DownloadRatings;
 import br.com.cervamania.cervamania.Controller.TarefaRetornaListaComentariosCervejaSelecionada;
 import br.com.cervamania.cervamania.Controller.TarefaRetornaNotaClassificacaoIndividual;
 import br.com.cervamania.cervamania.Model.CoresCervejas;
@@ -78,7 +80,9 @@ public class ListaClassificacaoCervejaSelecionadaActivity extends AppCompatActiv
         //imgGarrafa.setImageResource(imagensCervejas.retornaImagemCervejaReduzida(nomeCerveja));
 
         //new TarefaRetornaNotaClassificacaoIndividual(this).execute(codigoCerveja);
+        recuperaClassificacao(codigoCerveja);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -87,6 +91,7 @@ public class ListaClassificacaoCervejaSelecionadaActivity extends AppCompatActiv
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     public void retornoTarefaExterna(String nota) {
         if (nota.equals("ERRO_CONEXAO")) {
@@ -102,6 +107,32 @@ public class ListaClassificacaoCervejaSelecionadaActivity extends AppCompatActiv
             Toast.makeText(this, "Sem comentários pra essa Cerveja.", Toast.LENGTH_LONG).show();
         } else {
             adapter = new AdapterListaComentariosCervejaSelecionada(listaComentarios);
+            recyclerViewListaComentarios.setAdapter(adapter);
+        }
+    }
+
+    private void recuperaClassificacao(String codigo) {
+        DownloadRatings downloadRatings = new DownloadRatings(this);
+        downloadRatings.downloadRatingsOneBeer(codigo);
+    }
+
+    public void exibeProgresso(){
+        barraCircular.setVisibility(View.VISIBLE);
+        txtBaixandoInformacoes.setVisibility(View.VISIBLE);
+
+    }
+
+    public void escondeProgresso(){
+        barraCircular.setVisibility(View.GONE);
+        txtBaixandoInformacoes.setVisibility(View.GONE);
+    }
+
+    public void populaComentarios(ArrayList<String> lista, Float nota){
+        barraClassificacao.setRating(nota);
+        if (lista.isEmpty()){
+            Toast.makeText(this, "Sem comentários pra essa Cerveja.", Toast.LENGTH_LONG).show();
+        } else {
+            adapter = new AdapterListaComentariosCervejaSelecionada(lista);
             recyclerViewListaComentarios.setAdapter(adapter);
         }
     }
