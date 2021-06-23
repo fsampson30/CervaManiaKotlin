@@ -112,7 +112,7 @@ public class ListaClassificacaoCervejaSelecionadaActivity extends AppCompatActiv
     }
 
     private void recuperaClassificacao(String codigo) {
-        DownloadRatings downloadRatings = new DownloadRatings(this);
+        DownloadRatings downloadRatings = new DownloadRatings(this, null);
         downloadRatings.downloadRatingsOneBeer(codigo);
     }
 

@@ -13,8 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import br.com.cervamania.cervamania.Controller.AdapterListaCervejas;
+import br.com.cervamania.cervamania.Controller.DownloadRatings;
 import br.com.cervamania.cervamania.Controller.TarefaRetornaListaCervejasClassificacao;
 import br.com.cervamania.cervamania.Controller.TarefaRetornaListaCervejasClassificacaoNotas;
 import br.com.cervamania.cervamania.Controller.TarefaRetornaListaCervejasEstilos;
@@ -88,8 +91,9 @@ public class ListaCervejasActivity extends AppCompatActivity {
             case "classificacoes": {
                 txtTituloEstiloCerveja.setTextSize(20);
                 txtTituloEstiloCerveja.setText("Lista feita com as classificações dos usuários.");
-                new TarefaRetornaListaCervejasClassificacaoNotas(this).execute();
-                new TarefaRetornaListaCervejasClassificacao(this).execute();
+                //new TarefaRetornaListaCervejasClassificacaoNotas(this).execute();
+                //new TarefaRetornaListaCervejasClassificacao(this).execute();
+                recebeTodasClassificacoes();
                 break;
 
             }
@@ -163,5 +167,16 @@ public class ListaCervejasActivity extends AppCompatActivity {
         adapter = new AdapterListaCervejas(lista, codigoTipoCerveja, origemFragment, notasClassificacoes);
         recyclerViewListaCervejas.setAdapter(adapter);
     }
+
+    public void recebeTodasClassificacoes(){
+        DownloadRatings downloadRatings = new DownloadRatings(null, this);
+        downloadRatings.downloadAllRatings();
+    }
+
+    public void populaLista(ArrayList<String> nomes, ArrayList<Double> notas) {
+        adapter = new AdapterListaCervejas(nomes, codigoTipoCerveja, origemFragment, notas);
+        recyclerViewListaCervejas.setAdapter(adapter);
+    }
+
 }
 

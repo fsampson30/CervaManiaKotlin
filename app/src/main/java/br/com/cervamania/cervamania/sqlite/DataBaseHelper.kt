@@ -261,4 +261,21 @@ class DataBaseHelper(context: Context) :
         db.close()
         return cerveja
     }
+
+    fun selectNomeCervejaPorCodigo(codigo: String) : ArrayList<String>{
+        val db = this.readableDatabase
+        val names = arrayListOf<String>()
+        val columns = arrayOf(TablesStructure.TableCerveja.COLUMN_NOME_CERVEJA)
+        val condition = "${TablesStructure.TableCerveja.COLUMN_CODIGO_CERVEJA} = ?"
+        val parameters = arrayOf(codigo)
+        val cursor = db.query(TablesStructure.TableCerveja.TABLE_NAME,columns,condition,parameters,null,null,null)
+        with(cursor){
+            while (moveToNext()){
+                names.add(cursor.getString(0))
+            }
+        }
+        cursor.close()
+        db.close()
+        return names
+    }
 }
