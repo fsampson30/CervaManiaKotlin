@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -61,6 +70,7 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
     public ProgressBar barraCircular;
     public TextView txtBaixandoInformacoes;
     private String url = "";
+    private String filePath = "";
 
 
     @Override
@@ -99,6 +109,7 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
         //Código responsável pela pesquisa no SQLite - Nova implementação.
         exibeProgresso();
         retornaDadosCerveja(nomeCerveja);
+        baixaArquivoFoto(imagens.retornaNomeArquivoCerveja(nomeCerveja));
         escondeProgresso();
 
         //Código respónsável por acesso externo ao banco de dados - Desativado por Flavio Sampson - 17/06/2021 - 12:17
@@ -158,10 +169,11 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menuItemCompartilhar: {
                 try {
-                    Bitmap bm = BitmapFactory.decodeResource(getResources(), imagens.retornaImagemCerveja(nomeCerveja));
+                    //Bitmap bm = BitmapFactory.decodeResource(getResources(), imagens.retornaImagemCerveja(nomeCerveja));
+                    Bitmap bm = BitmapFactory.decodeFile(filePath);
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("image/jpeg");
-                    intent.setPackage("com.whatsapp");
+                    //intent.setPackage("com.whatsapp");
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     bm.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
                     File foto = new File(Environment.getExternalStorageDirectory() + File.separator + "temporario.jpg");
@@ -289,5 +301,33 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
         txtBaixandoInformacoes.setVisibility(View.GONE);
     }
 
+    public String baixaArquivoFoto(String nomeCerveja) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+        StorageReference storagepath = storageReference.child(nomeCerveja);
+        try {
+            File localFile = File.createTempFile("images","jpg");
+            storagepath.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Log.i(TAG, "File: " + localFile.getAbsolutePath());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.i(TAG, "File: Download Failed");
+                    e.printStackTrace();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull  Task<FileDownloadTask.TaskSnapshot> task) {
+                    filePath = localFile.getAbsolutePath();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return filePath;
+    }
 
 }
