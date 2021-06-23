@@ -28,6 +28,5 @@ public class ViewHolderListaCervejas extends RecyclerView.ViewHolder {
         this.btnListaCervejaDetalhes = (Button) itemView.findViewById(R.id.btnListaCervejaDetalhes);
         this.layoutHeaderListaCerveja = (LinearLayout) itemView.findViewById(R.id.layoutHeaderListaCervejas);
         this.barraClassificacao = (RatingBar) itemView.findViewById(R.id.barClassificacaoCerveja);
-        this.txtItemLista = (TextView) itemView.findViewById(R.id.txtListNumber);
     }
 }

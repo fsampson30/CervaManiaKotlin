@@ -12,6 +12,12 @@ public class ClassificacaoCerveja {
         this.estrelas = estrelas;
     }
 
+    public ClassificacaoCerveja(String codigoCerveja, double estrelas, String comentarios) {
+        this.codigoCerveja = codigoCerveja;
+        this.comentarios = comentarios;
+        this.estrelas = estrelas;
+    }
+
     public ClassificacaoCerveja() {
     }
 

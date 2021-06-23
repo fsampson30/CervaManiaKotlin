@@ -56,7 +56,6 @@ public class AdapterListaCervejas extends RecyclerView.Adapter<ViewHolderListaCe
         //DownloadImages downloadImages = new DownloadImages(holder.itemView.getContext(), nomeAtual);
         //String teste = downloadImages.retornaImageUrl();
         holder.txtListaCervejaNome.setText(nomeAtual);
-        holder.txtItemLista.setText((position+1) + " / " + listaNomesCervejas.size());
         Picasso.get().load(path).fetch();
 
         //holder.imgListaCervejaGarrafa.setImageResource(R.drawable.caneca);

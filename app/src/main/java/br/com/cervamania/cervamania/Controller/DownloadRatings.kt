@@ -1,6 +1,7 @@
 package br.com.cervamania.cervamania.Controller
 
 import android.util.Log
+import android.widget.TabHost
 import br.com.cervamania.cervamania.Model.ClassificacaoCerveja
 import br.com.cervamania.cervamania.View.ListaCervejasActivity
 import br.com.cervamania.cervamania.View.ListaClassificacaoCervejaSelecionadaActivity
@@ -29,7 +30,9 @@ class DownloadRatings(
                 for (document in documents) {
                     sum += document.data.get("nota").toString().toFloat()
                     size = documents.size()
-                    comments.add(document.data.get("comentarios").toString())
+                    if (document.data.get("comentarios").toString() != "") {
+                        comments.add(document.data.get("comentarios").toString())
+                    }
                 }
             }.addOnFailureListener { exception ->
                 Log.i(TAG, "Error retrieving data:  ", exception)

@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import br.com.cervamania.cervamania.Controller.UploadRatings;
 import br.com.cervamania.cervamania.R;
 import br.com.cervamania.cervamania.sqlite.DataBaseHelper;
 
