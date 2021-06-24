@@ -173,7 +173,7 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
                     Bitmap bm = BitmapFactory.decodeFile(filePath);
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("image/jpeg");
-                    //intent.setPackage("com.whatsapp");
+                    intent.setPackage("com.whatsapp");
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     bm.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
                     File foto = new File(Environment.getExternalStorageDirectory() + File.separator + "temporario.jpg");
