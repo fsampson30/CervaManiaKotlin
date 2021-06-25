@@ -3,7 +3,9 @@ package br.com.cervamania.cervamania.Model;
 import br.com.cervamania.cervamania.R;
 
 public class ImagensCervejas {
-    public int retornaImagemCerveja(String nomeCerveja) {
+
+    //Método desativado após migração das fotos para o Firebase Stogage - Flavio Sampson 25/06/2021 - 10:24
+    /*public int retornaImagemCerveja(String nomeCerveja) {
         switch (nomeCerveja) {
             case "Dos Equis Lager Especial":        return R.drawable.lager1;
             case "Sol Premium Beer":                return R.drawable.lager2;
@@ -384,10 +386,10 @@ public class ImagensCervejas {
             default: return R.drawable.ic_not_founddark;
         }
 
-    }
+    }*/
 
-
-    public int retornaImagemCervejaReduzida(String nomeCerveja) {
+    //Método desativado após migração das fotos para o Firebase Stogage - Flavio Sampson 25/06/2021 - 10:24
+    /*public int retornaImagemCervejaReduzida(String nomeCerveja) {
         switch (nomeCerveja) {
             case "Dos Equis Lager Especial":        return R.drawable.lager1reduzida;
             case "Sol Premium Beer":                return R.drawable.lager2reduzida;
@@ -767,7 +769,7 @@ public class ImagensCervejas {
 
             default:                                return R.drawable.ic_not_founddark;
         }
-    }
+    }*/
 
     public String retornaArquivoCerveja(String nomeCerveja) {
         switch (nomeCerveja) {

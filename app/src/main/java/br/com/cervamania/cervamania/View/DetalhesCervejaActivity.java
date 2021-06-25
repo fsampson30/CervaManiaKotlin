@@ -71,6 +71,7 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
     public TextView txtBaixandoInformacoes;
     private String url = "";
     private String filePath = "";
+    private MenuItem itemShare;
 
 
     @Override
@@ -84,6 +85,7 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
 
         nomeCerveja = savedInstanceState.getString("nomeCerveja");
         codigoEstiloCerveja = savedInstanceState.getString("codigoEstiloCerveja");
@@ -129,7 +131,7 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
         txtTemperaturaCerveja.setText(cerveja.getTemperatura());
         imgColoracaoCerveja.setImageResource(cores.retornaImagemCores(cerveja.getCor()));
         imgPaisCerveja.setImageResource(bandeiras.retornaImagemBandeiraCerveja(cerveja.getCodigo_pais_cerveja()));
-        imgGarrafaCerveja.setImageResource(imagens.retornaImagemCervejaReduzida(cerveja.getNome_cerveja()));
+        //imgGarrafaCerveja.setImageResource(imagens.retornaImagemCervejaReduzida(cerveja.getNome_cerveja()));
         layout.setBackgroundColor(getResources().getColor(cores.retornaCoresHexaDecimal(cerveja.getCor())));
 
         imgPaisCerveja.setOnClickListener(new View.OnClickListener() {
@@ -223,6 +225,7 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar_detalhes_cerveja_activity, menu);
+        itemShare = menu.findItem(R.id.menuItemCompartilhar);
         return true;
     }
 
@@ -322,6 +325,7 @@ public class DetalhesCervejaActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull  Task<FileDownloadTask.TaskSnapshot> task) {
                     filePath = localFile.getAbsolutePath();
+                    itemShare.setVisible(true);
                 }
             });
         } catch (IOException e) {
